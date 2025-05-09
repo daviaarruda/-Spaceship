@@ -21,9 +21,6 @@ Um jogo de nave espacial programado em linguagem C, onde seu objetivo é **sobre
 
 ---
 
-## 📸 Prévia
-
-> _(Adicione aqui um gif ou imagem do jogo rodando, se desejar)_
 
 ---
 
