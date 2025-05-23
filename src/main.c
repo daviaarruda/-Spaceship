@@ -13,9 +13,9 @@
 #define MAX_JOGADORES 10
 
 typedef struct TopScore {
-    char *iniciais;          
-    int score;               
-    struct TopScore *prox;   
+    char *iniciais;
+    int score;
+    struct TopScore *prox;
 } TopScore;
 
 struct Nave {
@@ -212,20 +212,11 @@ float selecionarDificuldade() {
     }
 
     switch (escolha) {
-        case 1: 
-            screenSetColor(LIGHTGREEN, BLACK);
-            return 0.3;
-        case 2: 
-            screenSetColor(LIGHTCYAN, BLACK);
-            return 0.5;
-        case 3: 
-            screenSetColor(LIGHTYELLOW, BLACK);
-            return 0.7;
-        case 4: 
-            screenSetColor(LIGHTRED, BLACK);
-            return 1.0;
-        default: 
-            return 0.5;
+        case 1: return 0.3;
+        case 2: return 0.5;
+        case 3: return 0.7;
+        case 4: return 1.0;
+        default: return 0.5;
     }
 }
 
@@ -250,7 +241,6 @@ void adicionarTopScore(TopScore **lista, char *iniciais, int score) {
     atual->prox = novo;
 }
 
-
 void salvarTopScores(const char *arquivo, TopScore *lista) {
     FILE *fp = fopen(arquivo, "w");
     if (fp == NULL) {
@@ -263,3 +253,42 @@ void salvarTopScores(const char *arquivo, TopScore *lista) {
         atual = atual->prox;
     }
     fclose(fp);
+}
+
+TopScore* carregarTopScores(const char *arquivo) {
+    FILE *fp = fopen(arquivo, "r");
+    if (fp == NULL) return NULL;
+
+    TopScore *lista = NULL;
+    char iniciais[4];
+    int score;
+
+    while (fscanf(fp, "%3s %d", iniciais, &score) == 2) {
+        char *iniciais_dup = strdup(iniciais);
+        adicionarTopScore(&lista, iniciais_dup, score);
+    }
+
+    fclose(fp);
+    return lista;
+}
+
+void exibirTopScores(TopScore *lista) {
+    printf("\n=== TOP SCORES ===\n");
+    int rank = 1;
+    while (lista != NULL && rank <= 10) {
+        printf("%d. %s - %d\n", rank, lista->iniciais, lista->score);
+        lista = lista->prox;
+        rank++;
+    }
+    printf("==================\n\n");
+}
+
+void liberarLista(TopScore *lista) {
+    TopScore *atual = lista;
+    while (atual != NULL) {
+        TopScore *prox = atual->prox;
+        free(atual->iniciais);
+        free(atual);
+        atual = prox;
+    }
+}
