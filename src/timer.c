@@ -1,50 +1,49 @@
-
-
 #include "timer.h"
-#include <sys/time.h>
+#include <time.h>
 #include <stdio.h>
+#include <time.h>
 
-static struct timeval timer, now;
-static int delay = -1;
+static clock_t start_time;
+static int delay_ms = 0;
 
-void timerInit(int valueMilliSec)
-{
-    delay = valueMilliSec;
-    gettimeofday(&timer, NULL);
+void timerInit(int valueMilliSec) {
+    delay_ms = valueMilliSec;
+    start_time = clock();
 }
 
-void timerDestroy()
-{
-    delay = -1;
+void timerDestroy() {
+    delay_ms = 0;
 }
 
-void timerUpdateTimer(int valueMilliSec)
-{
-    delay = valueMilliSec;
-    gettimeofday(&timer, NULL);
-}
-
-int getTimeDiff()
-{
-    gettimeofday(&now, NULL);
-    long diff = (((now.tv_sec - timer.tv_sec) * 1000000) + now.tv_usec - timer.tv_usec)/1000;
-    return (int) diff;
-}
-
-int timerTimeOver()
-{
-    int ret = 0;
-
-    if (getTimeDiff() > delay)
-    {
-        ret = 1;
-        gettimeofday(&timer, NULL);
+int timerTimeOver() {
+    clock_t current = clock();
+    int elapsed = (int)((current - start_time) * 1000 / CLOCKS_PER_SEC);
+    
+    if (elapsed >= delay_ms) {
+        start_time = current;
+        return 1;
     }
-
-    return ret;
+    return 0;
 }
 
-void timerPrint()
-{
-    printf("Timer:  %d", getTimeDiff());
+void timerUpdateTimer(int valueMilliSec) {
+    delay_ms = valueMilliSec;
+    start_time = clock();
+}
+
+int getTimeDiff() {
+    clock_t current = clock();
+    return (int)((current - start_time) * 1000 / CLOCKS_PER_SEC);
+}
+
+void timerPrint() {
+    printf("Timer: %d ms\n", getTimeDiff());
+}
+void timerDelay(int ms) {
+    clock_t start = clock();
+    while ((clock() - start) * 1000 / CLOCKS_PER_SEC < ms);
+}
+
+int timerGetTicks() {
+    return getTimeDiff();
 }
