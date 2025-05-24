@@ -6,7 +6,7 @@ Um jogo de nave espacial programado em linguagem C, onde seu objetivo é **sobre
 
 ## 🎮 Como Jogar
 
-- Use as **setas ← e →** para mover a nave espacial para os lados.
+- Use as **setas A e D para mover a nave espacial para os lados.
 - Desvie dos obstáculos que caem do topo da tela.
 - A cada novo nível, a velocidade dos obstáculos aumenta!
 
@@ -15,7 +15,7 @@ Um jogo de nave espacial programado em linguagem C, onde seu objetivo é **sobre
 ## 🛠️ Funcionalidades
 
 - ✅ Nave controlável com teclado.
-- ✅ Obstáculos aleatórios (asteroides e lixo espacial).
+- ✅ Obstáculos aleatórios (asteroides).
 - ✅ Aumento gradual da dificuldade com o tempo.
 - ✅ Interface em terminal (modo texto).
 
