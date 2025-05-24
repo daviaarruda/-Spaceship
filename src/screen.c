@@ -53,19 +53,19 @@ void screenInit(int drawBorders)
 
 void screenDestroy()
 {
-    printf("%s[0;39;49m", ESC); // Reset colors
+    printf("%s[0;39;49m", ESC); 
     screenSetNormal();
     screenClear();
     screenHomeCursor();
     screenShowCursor();
 }
 
-void screenGotoxy(int x, int y)
-{
-    x = ( x<0 ? 0 : x>=MAXX ? MAXX-1 : x);
-    y = ( y<0 ? 0 : y>MAXY ? MAXY : y);
+void screenGotoxy(int col, int row) {
+    col = (col < MINX ? MINX : col >= MAXX ? MAXX-1 : col);
+    row = (row < MINY ? MINY : row > MAXY ? MAXY : row);
     
-    printf("%s[f%s[%dB%s[%dC", ESC, ESC, y, ESC, x);
+    
+    printf("%s[%d;%dH", ESC, row, col);
 }
 
 void screenSetColor( screenColor fg, screenColor bg)
@@ -79,4 +79,8 @@ void screenSetColor( screenColor fg, screenColor bg)
     }
 
     printf("%s%s%d;%dm", ESC, atr, fg+30, bg+40);
+}
+void screenClearLine(int row) {
+    screenGotoxy(MINX, row);
+    printf("%s[K", ESC);  
 }
