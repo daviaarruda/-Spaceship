@@ -1,11 +1,16 @@
 
+#ifndef TIMER_H
+#define TIMER_H
+#include <stdio.h>
 
-void timerInit(int valueMilliSec);
+void timerInit(int valueMilliSec);  
+int timerTimeOver(void);            
+void timerDestroy(void);           
 
-void timerDestroy();
+void timerUpdateTimer(int valueMilliSec);  
+void timerPrint(void); 
 
-void timerUpdateTimer(int valueMilliSec);
+int timerGetTicks();
+void timerDelay(int ms);
 
-int timerTimeOver();
-
-void timerPrint();
+#endif
