@@ -28,7 +28,9 @@ Um jogo de nave espacial programado em linguagem C, onde seu objetivo é **sobre
 
 ```bash
 # Compile o jogo
-gcc main.c -o spaceship_escape
+gcc -std=c99 -Iinclude \
+    main.c keyboard.c screen.c timer.c \
+    -o spaceship_escape
 
 # Execute o jogo
 ./spaceship_escape
